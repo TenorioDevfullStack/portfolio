@@ -2,8 +2,18 @@
 
 import { Button } from "@/components/ui/button";
 import { Github, Linkedin, Mail } from "lucide-react";
-// Importando o componente Particles da nova biblioteca
-import { Particles } from "react-animation-particles";
+// Importação dinâmica para o componente Particles
+import dynamic from "next/dynamic";
+
+// Importando o componente Particles da nova biblioteca com importação dinâmica
+const Particles = dynamic(
+  () => import("react-animation-particles").then((mod) => mod.Particles),
+  {
+    ssr: false,
+    // Você pode adicionar um componente de carregamento opcional aqui
+    // loading: () => <div>Carregando background...</div>,
+  }
+);
 
 export function Hero() {
   // Configuração básica para react-animation-particles
