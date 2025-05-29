@@ -2,200 +2,210 @@
 
 import { Button } from "@/components/ui/button";
 import { Github, Linkedin, Mail } from "lucide-react";
-// Importação dinâmica para o componente Particles
-import dynamic from "next/dynamic";
-
-// Importando o componente Particles da nova biblioteca com importação dinâmica
-const Particles = dynamic(
-  () => import("react-animation-particles").then((mod) => mod.Particles),
-  {
-    ssr: false,
-    // Você pode adicionar um componente de carregamento opcional aqui
-    // loading: () => <div>Carregando background...</div>,
-  }
-);
+import { motion } from "framer-motion";
 
 export function Hero() {
-  // Configuração básica para react-animation-particles
-  const particlesConfig = {
-    particles: {
-      number: {
-        value: 80,
-        density: {
-          enable: true,
-          value_area: 800,
-        },
-      },
-      color: {
-        value: "#212B36",
-      },
-      shape: {
-        type: "circle",
-      },
-      opacity: {
-        value: 0.5,
-        random: false,
-        anim: {
-          enable: false,
-          speed: 1,
-          opacity_min: 0.1,
-          sync: false,
-        },
-      },
-      size: {
-        value: 3,
-        random: true,
-        anim: {
-          enable: false,
-          speed: 40,
-          size_min: 0.1,
-          sync: false,
-        },
-      },
-      line_linked: {
-        enable: true,
-        distance: 150,
-        color: "#212B36",
-        opacity: 0.4,
-        width: 1,
-      },
-      move: {
-        enable: true,
-        speed: 2,
-        direction: "none",
-        random: false,
-        straight: false,
-        out_mode: "out",
-        bounce: false,
-        attract: {
-          enable: false,
-          rotateX: 600,
-          rotateY: 1200,
-        },
-      },
-    },
-    interactivity: {
-      detect_on: "canvas",
-      events: {
-        onhover: {
-          enable: true,
-          mode: "grab",
-        },
-        onclick: {
-          enable: true,
-          mode: "push",
-        },
-        resize: true,
-      },
-      modes: {
-        grab: {
-          distance: 140,
-          line_linked: {
-            opacity: 1,
-          },
-        },
-        bubble: {
-          distance: 400,
-          size: 40,
-          duration: 2,
-          opacity: 8,
-          speed: 3,
-        },
-        repulse: {
-          distance: 200,
-          duration: 0.4,
-        },
-        push: {
-          particles_nb: 4,
-        },
-        remove: {
-          particles_nb: 2,
-        },
-      },
-    },
-    retina_detect: true,
-  };
-
   return (
-    <section
-      id="hero"
-      className="min-h-screen flex items-center justify-center pt-16 relative overflow-hidden"
-    >
-      {/* Fundo com gradiente radial para efeito visual */}
-      <div className="absolute inset-0 z-0 bg-gradient-radial from-primary/20 via-background to-background"></div>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-background to-background/95">
+      {/* Gradientes e efeitos de fundo */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background/50 to-background/95" />
 
-      {/* Overlay com padrão de grade sutil */}
-      <div
-        className="absolute inset-0 z-0 opacity-20"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(var(--foreground), 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(var(--foreground), 0.1) 1px, transparent 1px)",
-          backgroundSize: "20px 20px",
-          maskImage:
-            "radial-gradient(ellipse 80% 50% at 50% 0%, #000 70%, transparent 110%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 80% 50% at 50% 0%, #000 70%, transparent 110%)", // Para compatibilidade com Webkit
-        }}
-      ></div>
+      {/* Efeito de Código Binário - Reduzido */}
+      <div className="binary-container">
+        {/* Colunas de código */}
+        {[...Array(10)].map((_, i) => (
+          <motion.div
+            key={`column-${i}`}
+            className="binary-column"
+            style={{
+              left: `${(i * 100) / 10}%`,
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: i * 0.1 }}
+          >
+            {[...Array(5)].map((_, j) => (
+              <motion.div
+                key={`char-${i}-${j}`}
+                className="binary-char"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0, 0.5, 0] }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  delay: j * 0.3,
+                }}
+              >
+                {Math.random() > 0.5 ? "1" : "0"}
+              </motion.div>
+            ))}
+          </motion.div>
+        ))}
 
-      {/* Componente de Partículas envolvendo o conteúdo */}
-      <Particles config={particlesConfig}>
-        <div className="container mx-auto px-4 text-center z-20 relative">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-background/80 backdrop-blur-sm p-4 rounded-lg">
-              Leandro Tenório
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 bg-background/80 backdrop-blur-sm p-4 rounded-lg">
-              Estudante de Desenvolvimento & Automação
-            </p>
-            <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto bg-background/80 backdrop-blur-sm p-4 rounded-lg">
-              Apaixonado por tecnologia, automação e inteligência artificial.
-              Transformando ideias em soluções práticas através de ferramentas
-              no-code e desenvolvimento.
-            </p>
-          </div>
-          <div className="flex flex-wrap justify-center items-center gap-4">
-            <Button
-              className="bg-[#0A66C2] text-white hover:bg-[#0A66C2]/90 transition-colors duration-300 flex items-center"
-              asChild
+        {/* Partículas de brilho - Reduzidas */}
+        {[...Array(5)].map((_, i) => (
+          <motion.div
+            key={`glow-${i}`}
+            className="glow-particle"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: [0, 1, 0], opacity: [0, 0.5, 0] }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              delay: i * 0.4,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Conteúdo principal */}
+      <div className="relative z-10 text-center px-4">
+        <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-10 shadow-xl border border-white/20 hover:shadow-2xl transition-all duration-300 dark:bg-gray-900/80 dark:border-gray-800/20 relative group">
+          {/* Efeito de brilho simplificado */}
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-[#06b6d4]/20 to-[#3b82f6]/20 rounded-3xl opacity-0 group-hover:opacity-100 transition duration-300"></div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#3b82f6] to-[#8b5cf6] bg-clip-text text-transparent"
+          >
+            Leandro Tenório
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-xl md:text-2xl mb-4 text-[#30e0ff] font-semibold"
+          >
+            Estudante de Análise e Desenvolvimento de Sistemas
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-lg md:text-xl mb-4 text-[#60d0ff] font-semibold"
+          >
+            Especialista em Automação No-Code + IA | Desenvolvedor de Soluções
+            Inteligentes
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="text-base md:text-lg mb-8 text-[#90c0ff] font-medium max-w-2xl mx-auto leading-relaxed"
+          >
+            Apaixonado por transformar ideias em realidade através da IA e
+            automação. Explorando as infinitas possibilidades que a tecnologia
+            oferece para criar soluções inovadoras e impactantes.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="flex justify-center gap-4 mb-8"
+          >
+            <a
+              href="#projetos"
+              className="px-6 py-3 bg-[#4a2a8a] text-white rounded-lg hover:bg-[#6a3aaa] transition-all duration-300 transform hover:scale-105"
             >
-              <a
-                href="https://www.linkedin.com/in/leandro-tenório-088378310/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center"
-              >
-                <Linkedin className="mr-2 h-4 w-4" />
-                LinkedIn
-              </a>
-            </Button>
-            <Button
-              className="bg-[#24292e] text-white hover:bg-[#24292e]/90 transition-colors duration-300 flex items-center"
-              asChild
+              Ver Projetos
+            </a>
+            <a
+              href="#contato"
+              className="px-6 py-3 border-2 border-[#4a2a8a] text-[#4a2a8a] rounded-lg hover:bg-[#4a2a8a] hover:text-white transition-all duration-300 transform hover:scale-105"
             >
-              <a
-                href="https://github.com/TenorioDevfullStack"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center"
-              >
-                <Github className="mr-2 h-4 w-4" />
-                GitHub
-              </a>
-            </Button>
-            <Button asChild>
-              <a
-                href="mailto:tenorioleandro22@gmail.com"
-                rel="noopener noreferrer"
-                className="flex items-center"
-              >
-                <Mail className="mr-2 h-4 w-4" />
-                Email
-              </a>
-            </Button>
-          </div>
+              Contato
+            </a>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="flex justify-center gap-4"
+          >
+            <a
+              href="https://github.com/TenorioDevfullStack"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 bg-[#24292e] text-white rounded-full hover:bg-[#2d333b] transition-all duration-300 transform hover:scale-110"
+            >
+              <Github className="w-6 h-6" />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/leandro-tenório-088378310/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 bg-[#0077b5] text-white rounded-full hover:bg-[#006699] transition-all duration-300 transform hover:scale-110"
+            >
+              <Linkedin className="w-6 h-6" />
+            </a>
+            <a
+              href="mailto:tenorioleandro22@gmail.com"
+              className="p-3 bg-white/10 text-gray-900 rounded-full hover:bg-white/20 transition-all duration-300 transform hover:scale-110"
+            >
+              <Mail className="w-6 h-6" />
+            </a>
+          </motion.div>
         </div>
-      </Particles>
+      </div>
+
+      {/* Indicador de scroll simplificado */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1, duration: 0.5 }}
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+      >
+        <div className="w-6 h-10 border-2 border-gray-900 dark:border-white rounded-full p-1">
+          <motion.div
+            animate={{ y: [0, 12, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="w-1.5 h-1.5 bg-gray-900 dark:bg-white rounded-full"
+          />
+        </div>
+      </motion.div>
+
+      <style jsx global>{`
+        .binary-container {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          opacity: 0.8;
+          font-family: monospace;
+        }
+
+        .binary-column {
+          position: absolute;
+          top: 0;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          padding: 2rem 0;
+        }
+
+        .binary-char {
+          color: #3b82f6;
+          font-size: 1.5rem;
+          font-weight: bold;
+          text-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+          opacity: 0.8;
+        }
+
+        .glow-particle {
+          position: absolute;
+          width: 4px;
+          height: 4px;
+          background: #3b82f6;
+          border-radius: 50%;
+          box-shadow: 0 0 15px #3b82f6;
+        }
+      `}</style>
     </section>
   );
 }

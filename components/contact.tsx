@@ -33,8 +33,16 @@ export function Contact() {
   });
 
   return (
-    <section id="contact" className="py-20 bg-muted/50" ref={ref}>
-      <div className="container mx-auto px-4">
+    <section
+      id="contact"
+      className="py-20 bg-gradient-to-b from-background/80 to-background/75 relative overflow-hidden"
+      ref={ref}
+    >
+      {/* Efeito de fundo */}
+      <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-blue-500/5 animate-gradient" />
+
+      <div className="container mx-auto px-4 relative z-10">
         <h2
           className={`text-3xl font-bold text-center mb-12 transition-opacity duration-1000 ${
             inView ? "opacity-100" : "opacity-0"
@@ -42,50 +50,48 @@ export function Contact() {
         >
           Contato
         </h2>
-        <div className="max-w-3xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-6">
-            {contactInfo.map((info, index) => (
-              <Card
-                key={info.title}
-                className={`transition-opacity duration-1000 transform hover:scale-105 hover:shadow-lg transition-all duration-300 bg-card hover:bg-primary group ${
-                  inView
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-10"
-                }`}
-                style={{ transitionDelay: `${index * 100}ms` }}
-              >
-                <CardContent className="p-6 text-center flex flex-col items-center">
-                  <div className="flex justify-center mb-4">
-                    <div className="p-3 bg-primary/10 rounded-lg group-hover:bg-primary-foreground/20 transition-colors duration-300">
-                      {info.icon}
-                    </div>
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2 group-hover:text-primary-foreground transition-colors duration-300">
-                    {info.title}
-                  </h3>
-                  <Button
-                    variant="link"
-                    asChild
-                    className={`h-auto p-0 transition-colors duration-300 ${
-                      info.title === "LinkedIn"
-                        ? "text-[#0A66C2] group-hover:text-white group-hover:bg-[#0A66C2]/20 rounded px-1"
-                        : info.title === "GitHub"
-                        ? "bg-[#24292e] text-white hover:bg-[#24292e]/90 rounded px-3 py-1"
-                        : "text-foreground group-hover:text-primary-foreground"
-                    }`}
-                  >
-                    <a
-                      href={info.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {info.value}
-                    </a>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+        <div
+          className={`max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 transition-opacity duration-1000 delay-300 ${
+            inView ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          {contactInfo.map((info, index) => (
+            <div
+              key={info.title}
+              className={`relative group p-6 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gradient-to-br from-[#3b82f6]/10 to-[#8b5cf6]/10 backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden ${
+                inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              }`}
+              style={{
+                transitionDelay: `${index * 100}ms`,
+              }}
+            >
+              {/* Efeito de brilho */}
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-3xl blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+
+              <div className="relative z-10 text-center flex flex-col items-center">
+                <div className="p-3 bg-gray-900/10 dark:bg-white/10 rounded-lg group-hover:bg-gray-900/20 dark:group-hover:bg-white/20 transition-all duration-300 mb-4">
+                  {info.icon}
+                </div>
+                <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
+                  {info.title}
+                </h3>
+                <a
+                  href={info.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`px-4 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 ${
+                    info.title === "LinkedIn"
+                      ? "bg-[#0077b5] text-white hover:bg-[#006699]"
+                      : info.title === "GitHub"
+                      ? "bg-[#24292e] text-white hover:bg-[#2d333b]"
+                      : "bg-gray-900/10 dark:bg-white/10 text-gray-900 dark:text-white hover:bg-gray-900/20 dark:hover:bg-white/20"
+                  }`}
+                >
+                  {info.value}
+                </a>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
