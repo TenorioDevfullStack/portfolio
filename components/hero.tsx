@@ -2,48 +2,28 @@
 
 import { Button } from "@/components/ui/button";
 import { Github, Linkedin, Mail } from "lucide-react";
-import Particles, { initParticlesEngine } from "@tsparticles/react";
-import { loadSlim } from "@tsparticles/slim"; // Importando loadSlim do pacote correto
-import { Container, Engine, MoveDirection } from "@tsparticles/engine"; // Removendo 'type' de MoveDirection
-import { useCallback, useEffect, useState } from "react";
+// Importando o componente Particles da nova biblioteca
+import { Particles } from "react-animation-particles";
 
 export function Hero() {
-  const [init, setInit] = useState(false);
-
-  // this should be run only once per application lifetime
-  useEffect(() => {
-    initParticlesEngine(async (engine: Engine) => {
-      await loadSlim(engine); // Usando loadSlim
-    }).then(() => {
-      setInit(true);
-    });
-  }, []);
-
-  const particlesLoaded = useCallback(
-    async (container: Container | undefined) => {
-      console.log(container);
-    },
-    []
-  );
-
-  const particlesOptions = {
-    // Configurações básicas das partículas
+  // Configuração básica para react-animation-particles
+  const particlesConfig = {
     particles: {
       number: {
-        value: 80, // Quantidade de partículas
+        value: 80,
         density: {
           enable: true,
           value_area: 800,
         },
       },
       color: {
-        value: "#212B36", // Cor das partículas (azul escuro - foreground)
+        value: "#212B36",
       },
       shape: {
-        type: "circle", // Formato das partículas
+        type: "circle",
       },
       opacity: {
-        value: 0.5, // Opacidade das partículas
+        value: 0.5,
         random: false,
         anim: {
           enable: false,
@@ -62,17 +42,17 @@ export function Hero() {
           sync: false,
         },
       },
-      links: {
-        enable: true, // Ligar partículas com linhas
-        distance: 150, // Distância máxima para linhas
-        color: "#212B36", // Cor das linhas (azul escuro)
+      line_linked: {
+        enable: true,
+        distance: 150,
+        color: "#212B36",
         opacity: 0.4,
         width: 1,
       },
       move: {
         enable: true,
-        speed: 2, // Velocidade das partículas
-        direction: MoveDirection.none, // Usando MoveDirection.none
+        speed: 2,
+        direction: "none",
         random: false,
         straight: false,
         out_mode: "out",
@@ -84,25 +64,24 @@ export function Hero() {
         },
       },
     },
-    // Interatividade
     interactivity: {
       detect_on: "canvas",
       events: {
         onhover: {
-          enable: true, // Habilitar hover
-          mode: "grab", // Modo de interação (grab, bubble, repulse)
+          enable: true,
+          mode: "grab",
         },
         onclick: {
           enable: true,
           mode: "push",
         },
-        resize: {}, // Mantendo como objeto vazio
+        resize: true,
       },
       modes: {
         grab: {
-          distance: 140, // Distância para o grab
-          links: {
-            opacity: 1, // Opacidade das linhas no grab
+          distance: 140,
+          line_linked: {
+            opacity: 1,
           },
         },
         bubble: {
@@ -124,50 +103,34 @@ export function Hero() {
         },
       },
     },
-    // Configurações do detector de retina
     retina_detect: true,
-    // Configurações do fundo (opcional, pois já temos o gradiente)
-    // background: {
-    //   color: "#000000",
-    //   image: "",
-    //   position: "50% 50%",
-    //   repeat: "no-repeat",
-    //   size: "cover",
-    // },
   };
 
-  if (init) {
-    return (
-      <section
-        id="hero"
-        className="min-h-screen flex items-center justify-center pt-16 relative overflow-hidden"
-      >
-        {/* Fundo com gradiente radial para efeito visual */}
-        <div className="absolute inset-0 z-0 bg-gradient-radial from-primary/20 via-background to-background"></div>
+  return (
+    <section
+      id="hero"
+      className="min-h-screen flex items-center justify-center pt-16 relative overflow-hidden"
+    >
+      {/* Fundo com gradiente radial para efeito visual */}
+      <div className="absolute inset-0 z-0 bg-gradient-radial from-primary/20 via-background to-background"></div>
 
-        {/* Overlay com padrão de grade sutil */}
-        <div
-          className="absolute inset-0 z-0 opacity-20"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, rgba(var(--foreground), 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(var(--foreground), 0.1) 1px, transparent 1px)",
-            backgroundSize: "20px 20px",
-            maskImage:
-              "radial-gradient(ellipse 80% 50% at 50% 0%, #000 70%, transparent 110%)",
-            WebkitMaskImage:
-              "radial-gradient(ellipse 80% 50% at 50% 0%, #000 70%, transparent 110%)", // Para compatibilidade com Webkit
-          }}
-        ></div>
+      {/* Overlay com padrão de grade sutil */}
+      <div
+        className="absolute inset-0 z-0 opacity-20"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(var(--foreground), 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(var(--foreground), 0.1) 1px, transparent 1px)",
+          backgroundSize: "20px 20px",
+          maskImage:
+            "radial-gradient(ellipse 80% 50% at 50% 0%, #000 70%, transparent 110%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 80% 50% at 50% 0%, #000 70%, transparent 110%)", // Para compatibilidade com Webkit
+        }}
+      ></div>
 
-        {/* Componente de Partículas */}
-        <Particles
-          id="tsparticles"
-          particlesLoaded={particlesLoaded}
-          options={particlesOptions}
-          className="absolute inset-0 z-0"
-        />
-
-        <div className="container mx-auto px-4 text-center z-10 relative">
+      {/* Componente de Partículas envolvendo o conteúdo */}
+      <Particles config={particlesConfig}>
+        <div className="container mx-auto px-4 text-center z-20 relative">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-background/80 backdrop-blur-sm p-4 rounded-lg">
               Leandro Tenório
@@ -222,10 +185,7 @@ export function Hero() {
             </Button>
           </div>
         </div>
-      </section>
-    );
-  }
-
-  // Retorna null ou um placeholder enquanto as partículas estão sendo inicializadas
-  return <div>Carregando background...</div>;
+      </Particles>
+    </section>
+  );
 }
